@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="rendermodel.js"></script>
+	<script type="text/javascript">
+		// Next line will be replaced by the JSON model, don't change it ...
+		XX_MODEL_PLACE_HOLDER;
+	
+		// Only executed our code once the DOM is ready.
+		window.onload = function() {
+			var canvas = document.getElementById('myCanvas');
+			paper.setup(canvas);
+			main(elements);
+			paper.view.draw();
+		}
+	</script>
+</head>
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>
