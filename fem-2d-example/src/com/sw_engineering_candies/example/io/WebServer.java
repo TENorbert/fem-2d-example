@@ -49,8 +49,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.sw_engineering_candies.example.core.Model;
-import com.sw_engineering_candies.example.core.Solver;
+import com.sw_engineering_candies.example.core.FemCore;
+import com.sw_engineering_candies.example.core.ModelUtil;
 
 public class WebServer extends Thread {
 
@@ -58,10 +58,10 @@ public class WebServer extends Thread {
 
 	private final int port = 1234;
 
-	private final Model sf;
+	private final FemCore sf;
 
-	public WebServer(Model sf) {
-		this.sf = sf;
+	public WebServer(FemCore model) {
+		this.sf = model;
 		String hostname = "localhost";
 
 		try {
@@ -80,7 +80,7 @@ public class WebServer extends Thread {
 			System.out.println(e.getMessage());
 		}
 		// System.out.println("listen at url: http://localhost:1234/index.html");
-		System.out.println("webserver started        [http://" + hostname + ':' + port + "/index.html]");
+		System.out.println("webserver started         [http://" + hostname + ':' + port + "/index.html]");
 
 		final Thread serverThread = this;
 		serverThread.start();
@@ -96,7 +96,6 @@ public class WebServer extends Thread {
 				final OutputStream out = new BufferedOutputStream(connection.getOutputStream());
 				final InputStream in = new BufferedInputStream(connection.getInputStream());
 				final String request = readFirstLineOfRequest(in).toString();
-				System.out.println("get request " + request.toString());
 
 				if (request.toLowerCase().startsWith("get /index.html")) {
 					// Create content of response
@@ -175,7 +174,7 @@ public class WebServer extends Thread {
 			final BufferedReader br = new BufferedReader(is);
 			for (String s = br.readLine(); s != null; s = br.readLine()) {
 				if (s.contains("XX_MODEL_PLACE_HOLDER")) {
-					fw.append(ModelUtil.getModelAsJSON(sf));
+					fw.append(ModelUtil.getJSON(sf, -90, 0));
 				} else {
 					fw.append(s).append('\n');
 				}
@@ -188,10 +187,9 @@ public class WebServer extends Thread {
 	}
 
 	public static void main(String[] args) {
-		final Solver fem = new Solver();
-		new WebServer(fem);
-
-		String createDefaultModel = ModelUtil.createDefaultModel(fem);
-		fem.run(createDefaultModel);		
+		final FemCore model = new FemCore();
+		final String inputModel = ModelUtil.createDefaultModel(model).toString();
+		model.createStiffnessMatrix(inputModel);
+		new WebServer(model);
 	}
 }

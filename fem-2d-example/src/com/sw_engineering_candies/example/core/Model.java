@@ -50,16 +50,16 @@ public class Model {
 	private Node[][] model;
 
 	// Vector of input forces in N
-	private Matrix forcesIn;
+	private Vector forcesIn;
 
 	// Vector of known displacements in mm
-	private Matrix deltasIn;
+	private Vector deltasIn;
 
 	// Vector of resulting forces in N
-	private Matrix forcesOut;
+	private Vector forcesOut;
 
 	// Vector of resulting displacements in mm
-	private Matrix deltasOut;
+	private Vector deltasOut;
 
 	// Number of nodes
 	private int numberOfNodes = 0;
@@ -111,27 +111,27 @@ public class Model {
 		for (int i = 0; i < numberOfNodes * 2; i++) {
 			newInputForces[i] = Double.NaN;
 		}
-		forcesIn = new Matrix(newInputForces).transpose();
+		forcesIn = new Vector(newInputForces);
 	}
 
-	public Matrix getForcesIn() {
+	public Vector getForcesIn() {
 		return forcesIn;
 	}
 
 	public double getForceInY(int nodeId) {
-		return forcesIn.getValue(nodeId * 2 - 1, 0);
+		return forcesIn.getValue(nodeId * 2 - 1);
 	}
 
 	public double getForceInX(int nodeId) {
-		return forcesIn.getValue(nodeId * 2 - 2, 0);
+		return forcesIn.getValue(nodeId * 2 - 2);
 	}
 
 	public void setForceInY(int nodeId, double value) {
-		forcesIn.setValue(nodeId * 2 - 1, 0, value);
+		forcesIn.setValue(nodeId * 2 - 1, value);
 	}
 
 	public void setForceInX(int nodeId, double value) {
-		forcesIn.setValue(nodeId * 2 - 2, 0, value);
+		forcesIn.setValue(nodeId * 2 - 2, value);
 	}
 
 	// ///////////////////////////////////////////////////////////////
@@ -142,73 +142,73 @@ public class Model {
 		for (int i = 0; i < numberOfNodes * 2; i++) {
 			newInputdeltas[i] = Double.NaN;
 		}
-		deltasIn = new Matrix(newInputdeltas).transpose();
+		deltasIn = new Vector(newInputdeltas);
 	}
 
-	public Matrix getDeltasIn() {
+	public Vector getDeltasIn() {
 		return deltasIn;
 	}
 
 	protected double getDeltaInY(int nodeId) {
-		return deltasIn.getValue(nodeId * 2 - 1, 0);
+		return deltasIn.getValue(nodeId * 2 - 1);
 	}
 
 	protected double getDeltaInX(int nodeId) {
-		return deltasIn.getValue(nodeId * 2 - 2, 0);
+		return deltasIn.getValue(nodeId * 2 - 2);
 	}
 
 	public void setDeltaInX(int nodeId, double value) {
-		deltasIn.setValue(nodeId * 2 - 2, 0, value);
+		deltasIn.setValue(nodeId * 2 - 2, value);
 	}
 
 	public void setSeltaInY(int nodeId, double value) {
-		deltasIn.setValue(nodeId * 2 - 1, 0, value);
+		deltasIn.setValue(nodeId * 2 - 1, value);
 	}
 
 	public boolean isFixedY(int nodeId) {
-		return !Double.isNaN(deltasIn.getValue(nodeId * 2 - 1, 0));
+		return !Double.isNaN(deltasIn.getValue(nodeId * 2 - 1));
 	}
 
 	public boolean isFixedX(int nodeId) {
-		return !Double.isNaN(deltasIn.getValue(nodeId * 2 - 2, 0));
+		return !Double.isNaN(deltasIn.getValue(nodeId * 2 - 2));
 	}
 
 	// ///////////////////////////////////////////////////////////////
 	// getters, setters and helper for forcesOut
 
-	public void setForcesOut(Matrix value) {
+	public void setForcesOut(Vector value) {
 		forcesOut = value;
 	}
 
-	public Matrix getForcesOut() {
+	public Vector getForcesOut() {
 		return forcesOut;
 	}
 
 	public double getForceOutY(int nodeId) {
-		return forcesOut.getValue(0, nodeId * 2 - 1);
+		return forcesOut.getValue(nodeId * 2 - 1);
 	}
 
 	public double getForceOutX(int nodeId) {
-		return forcesOut.getValue(0, nodeId * 2 - 2);
+		return forcesOut.getValue(nodeId * 2 - 2);
 	}
 
 	// ///////////////////////////////////////////////////////////////
 	// getters, setters and helper for deltasOut
 
-	public void setDeltaOut(Matrix value) {
+	public void setDeltaOut(Vector value) {
 		deltasOut = value;
 	}
 
-	public Matrix getDeltasOut() {
+	public Vector getDeltasOut() {
 		return deltasOut;
 	}
 
 	public double getDeltaOutY(int nodeId) {
-		return deltasOut.getValue(0, nodeId * 2 - 1);
+		return deltasOut.getValue(nodeId * 2 - 1);
 	}
 
 	public double getDeltaOutX(int nodeId) {
-		return deltasOut.getValue(0, nodeId * 2 - 2);
+		return deltasOut.getValue(nodeId * 2 - 2);
 	}
 
 	public double getDeltaYMean(int elementId) {

@@ -32,25 +32,14 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  * 
  */
 
-package com.sw_engineering_candies.example.tests;
+package com.sw_engineering_candies.example.core;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.sw_engineering_candies.example.core.Matrix;
-
-public class MatrixTest {
-
-	@Test
-	public void testSolution() {
-		final Matrix A = new Matrix(new double[][] { { 4, 1 }, { 1, 3 } });
-		final Matrix b = new Matrix(new double[][] { { 1, 2 } }).transpose();
-		final Matrix result = A.solve(b);
-		final double[] expected = new double[] { 0.09090909090909091, 0.6363636363636364 };
-		Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
-	}
-
+public class Node {
+	public double x = 0.0f;
+	public double y = 0.0f;
+	public int nodeID = 0;
 }
