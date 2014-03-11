@@ -2,73 +2,74 @@ package com.sw_engineering_candies.example.core;
 
 public class Vector {
 
-	final double[] values;
+	  protected final double[] values;
 
-	public int getLength() {
-		return values.length;
-	}
+	   public Vector(final int length) {
+	      values = new double[length];
+	   }
 
-	public double getValue(final int index) {
-		return index >= 0 && index < values.length ? values[index] : 0.0;
-	}
+	   public Vector(final Vector A) {
+	      this(A.values);
+	   }
 
-	public void setValue(final int index, final double value) {
-		values[index] = value;
-	}
+	   public Vector(final double[] values) {
+	      this.values = new double[values.length];
+	      System.arraycopy(values, 0, this.values, 0, values.length);
+	   }
 
-	public void addValue(final int index, final double value) {
-		values[index] += value;
-	}
+	   // return C = A + B
+	   public void plus(final Vector B, final Vector result) {
+	      for (int i = 0; i < values.length; i++) {
+	         result.values[i] = values[i] + B.values[i];
+	      }
+	   }
 
-	public Vector(final int length) {
-		values = new double[length];
-	}
+	   // return C = A - B
+	   public void minus(final Vector B, final Vector result) {
+	      for (int i = 0; i < values.length; i++) {
+	         result.values[i] = values[i] - B.values[i];
+	      }
+	   }
 
-	public Vector(final Vector A) {
-		this(A.values);
-	}
+	   // return C = A o B 
+	   public double dotProduct(final Vector B) {
+	      double C = 0.0f;
+	      for (int i = 0; i < values.length; i++) {
+	         C += values[i] * B.values[i];
+	      }
+	      return C;
+	   }
 
-	public Vector(final double[] values) {
-		this.values = new double[values.length];
-		for (int i = 0; i < values.length; i++) {
-			this.values[i] = values[i];
-		}
-	}
+	   // return C = A * alpha
+	   public void multi(final double alpha, final Vector result) {
+	      for (int i = 0; i < values.length; i++) {
+	         result.values[i] = values[i] * alpha;
+	      }
+	   }
 
-	// return C = A + B
-	public Vector plus(final Vector B) {
-		final Vector C = new Vector(values.length);
-		for (int i = 0; i < values.length; i++) {
-			C.values[i] = values[i] + B.values[i];
-		}
-		return C;
-	}
+	   public void setValue(final int index, final double value) {
+	      values[index] = value;
+	   }
 
-	// return C = A - B
-	public Vector minus(final Vector B) {
-		final Vector C = new Vector(values.length);
-		for (int i = 0; i < values.length; i++) {
-			C.values[i] = values[i] - B.values[i];
-		}
-		return C;
-	}
+	   public double getValue(final int index) {
+	      return values[index];
+	   }
 
-	// return C = A o B
-	public double dotProduct(final Vector B) {
-		double C = 0.0f;
-		for (int i = 0; i < values.length; i++) {
-			C += values[i] * B.values[i];
-		}
-		return C;
-	}
+	   protected double[] getValues() {
+	      return values;
+	   }
 
-	// return C = A * alpha
-	public Vector multi(final double alpha) {
-		final Vector C = new Vector(values.length);
-		for (int i = 0; i < values.length; i++) {
-			C.values[i] = values[i] * alpha;
-		}
-		return C;
-	}
+	   public int getMaxRows() {
+	      return values.length;
+	   }
 
+	   @Override
+	   public String toString() {
+	      final StringBuilder sb = new StringBuilder("v3.Vector [");
+	      for (int i = 0; i < values.length; i++) {
+	         sb.append(String.format("%.6E", values[i])).append("  ");
+	      }
+	      sb.append(']');
+	      return sb.toString();
+	   }
 }

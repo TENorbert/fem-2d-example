@@ -56,10 +56,10 @@ public class FemCore {
 	private Vector inputDisplacements;
 
 	// Stiffness matrix of all elements
-	private BandMatrix originalStiffnessMatrix;
+	private BandMatrixFull originalStiffnessMatrix;
 
 	// Stiffness matrix with replaced of all known forces (see inputForces)
-	private BandMatrix rearangedStiffnessMatrix;
+	private BandMatrixFull rearangedStiffnessMatrix;
 
 	// Resulting forces in N
 	private double[] solutionForces;
@@ -93,11 +93,11 @@ public class FemCore {
 
 		final double[][] stiffnesMatrix = createGlobalStiffnessMatrix();
 
-		originalStiffnessMatrix = new BandMatrix(stiffnesMatrix);
+		originalStiffnessMatrix = new BandMatrixFull(stiffnesMatrix);
 
 		rearangeGlobalStiffnesMatrix(stiffnesMatrix);
 
-		rearangedStiffnessMatrix = new BandMatrix(stiffnesMatrix);
+		rearangedStiffnessMatrix = new BandMatrixFull(stiffnesMatrix);
 
 		final double end = System.currentTimeMillis();
 		System.out.println("stiffness matrix created  [" + (end - start) + "ms]");
@@ -115,12 +115,13 @@ public class FemCore {
 		}
 
 		final double start = System.currentTimeMillis();
-		final Vector x = BandMatrix.solveConjugateGradient(rearangedStiffnessMatrix, inputForces);
+		final Vector x = BandMatrixFull.solveConjugateGradient(rearangedStiffnessMatrix, inputForces);
 		final double end = System.currentTimeMillis();
 		System.out.println("conjugate gradient solved [" + (end - start) + "ms]");
 
 		solutionsDisplacements = x.values;
-		final Vector x2 = originalStiffnessMatrix.times(x);
+		final Vector x2 = new Vector(originalStiffnessMatrix.getMaxRows());
+		originalStiffnessMatrix.times(x, x2);
 		solutionForces = x2.values;
 		calculateSolutionsDisplacementsMeanX();
 	}
@@ -130,12 +131,12 @@ public class FemCore {
 			final double deltaX1 = getSolutionNodeDisplacementX(nodesByElement[elementId][1].nodeID);
 			final double deltaX2 = getSolutionNodeDisplacementX(nodesByElement[elementId][2].nodeID);
 			final double deltaX3 = getSolutionNodeDisplacementX(nodesByElement[elementId][3].nodeID);
-			solutionsDisplacementsMeanX[elementId - 1] = (deltaX3 + deltaX2 + deltaX1) / 3.0 * 200;
+			solutionsDisplacementsMeanX[elementId - 1] = (deltaX3 + deltaX2 + deltaX1) / 3.0 ;
 
 			final double deltaY1 = getSolutionNodeDisplacementY(nodesByElement[elementId][1].nodeID);
 			final double deltaY2 = getSolutionNodeDisplacementY(nodesByElement[elementId][2].nodeID);
 			final double deltaY3 = getSolutionNodeDisplacementY(nodesByElement[elementId][3].nodeID);
-			solutionsDisplacementsMeanY[elementId - 1] = (deltaY3 + deltaY2 + deltaY1) / 3.0 * 200;
+			solutionsDisplacementsMeanY[elementId - 1] = (deltaY3 + deltaY2 + deltaY1) / 3.0 ;
 		}
 	}
 

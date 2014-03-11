@@ -218,10 +218,10 @@ public class ModelUtil {
 
 	public static String createDefaultModel(FemCore femCore) {
 		final StringBuffer nodeText = new StringBuffer();
-		final int maxCols = 50;
-		final int maxRows = 30;
-		final int scaleFactorX = 20;
-		final int scaleFactorY = 20;
+		final int maxCols = 100;
+		final int maxRows = 10;
+		final int scaleFactorX = 10;
+		final int scaleFactorY = 10;
 		for (int col = 1; col <= maxCols; col++) {
 			for (int row = 1; row <= maxRows; row++) {
 				final int nodeId = row + maxRows * (col - 1);
