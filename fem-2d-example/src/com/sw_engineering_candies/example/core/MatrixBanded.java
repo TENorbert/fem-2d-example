@@ -103,6 +103,8 @@ final public class MatrixBanded {
 	}
 
 	public static Matrix solve(final MatrixBanded A, final Matrix b) {
+		long start = System.currentTimeMillis();
+		
 		Matrix x = new Matrix(b.row, b.col);
 		Matrix r = b.minus(A.times(x));
 		Matrix p = new Matrix(r);
@@ -121,6 +123,9 @@ final public class MatrixBanded {
 			p = r.plus(p.mult(beta));
 			rsold = rsnew;
 		}
+		
+		System.out.println("Matrix solve " + (System.currentTimeMillis()-start) + "ms");
+
 		return x.transpose();
 	}
 }

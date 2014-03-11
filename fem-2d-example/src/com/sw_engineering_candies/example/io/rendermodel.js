@@ -35,8 +35,11 @@
  * 
  */
 
-
 includeJavaScript('paper.js');
+
+// Next line will be replaced by the JSON model, don't change it ...
+XX_MODEL_PLACE_HOLDER;
+
 
 // Dimensions for display
 var height = 400;
@@ -93,10 +96,10 @@ function main(elements) {
 			// ensure that all is just drawn once
 			if (element.first) {
 
-				var text = new paper.PointText(point);
-				text.content = ' ' + element.id;
-				text.fontSize = 6;
-				text.justification = 'left';
+				// var text = new paper.PointText(point);
+				// text.content = ' ' + element.id;
+				// text.fontSize = 6;
+				// text.justification = 'left';
 
 				if (10000.0 < Math.abs(element.x_force)) {
 					drawVector(point, point.add(new paper.Point(element.x_force
@@ -250,3 +253,4 @@ function includeJavaScript(filename) {
 	script.type = 'text/javascript';
 	head.appendChild(script)
 }
+

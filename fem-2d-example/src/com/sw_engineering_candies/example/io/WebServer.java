@@ -96,7 +96,7 @@ public class WebServer extends Thread {
 				final OutputStream out = new BufferedOutputStream(connection.getOutputStream());
 				final InputStream in = new BufferedInputStream(connection.getInputStream());
 				final String request = readFirstLineOfRequest(in).toString();
-				// System.out.println("get request " + request.toString());
+				System.out.println("get request " + request.toString());
 
 				if (request.toLowerCase().startsWith("get /index.html")) {
 					// Create content of response
@@ -189,7 +189,9 @@ public class WebServer extends Thread {
 
 	public static void main(String[] args) {
 		final Solver fem = new Solver();
-		fem.run(ModelUtil.createDefaultModel(fem));
 		new WebServer(fem);
+
+		String createDefaultModel = ModelUtil.createDefaultModel(fem);
+		fem.run(createDefaultModel);		
 	}
 }
